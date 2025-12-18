@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreateUsersRequest } from './dto/createUsers.request';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -12,13 +12,26 @@ export class UsersService {
     getUsers() {
         return "Hello World";
     }
-    async createUser(data: CreateUsersRequest): Promise<User> {
-        const user = await this.prismaService.user.create({
-            data: {
-                ...data,
-                password: await bcrypt.hash(data.password, 10),
+    async createUser(data: CreateUsersRequest) {
+        try {
+            return await this.prismaService.user.create({
+                data: {
+                    ...data,
+                    password: await bcrypt.hash(data.password, 10),
+                },
+                select: {
+                    id: true,
+                    email: true,
+                    password: false,
+                }
+            })
+
+        } catch (err) {
+            if (err.code === 'P2002') {
+                throw new UnprocessableEntityException('Email already exists');
             }
-        })
-        return user;
+            throw err;
+        }
+
     }
 }

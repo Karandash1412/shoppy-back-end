@@ -3,6 +3,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
+import { HealthModule } from './health/health.module';
 
 @Module({
 
@@ -24,7 +25,7 @@ import { ConfigService } from '@nestjs/config';
     },
     inject: [ConfigService],
   }),
-  ConfigModule.forRoot(), UsersModule],
+  ConfigModule.forRoot(), UsersModule, HealthModule],
   controllers: [],
   providers: [],
 })
