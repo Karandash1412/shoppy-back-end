@@ -13,4 +13,9 @@ export class AuthController {
     login(@CurrentUser() user: User, @Res({ passthrough: true }) response: Response) {
         return this.authService.login(user, response);
     }
+    // @UseGuards(LocalAuthGuard)
+    // @Post('login')
+    // login(@CurrentUser() user: User, @Res({ passthrough: true }) response: Response) {
+    //     return this.authService.login(user, response);
+    // }
 }
