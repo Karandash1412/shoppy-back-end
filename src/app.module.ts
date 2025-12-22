@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 import { HealthModule } from './health/health.module';
 import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
 
@@ -26,7 +27,7 @@ import { AuthModule } from './auth/auth.module';
     },
     inject: [ConfigService],
   }),
-  ConfigModule.forRoot(), UsersModule, HealthModule, AuthModule],
+  ConfigModule.forRoot(), UsersModule, HealthModule, AuthModule, ProductsModule],
   controllers: [],
   providers: [],
 })
