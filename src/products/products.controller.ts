@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Body } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { createProductRequest } from './dto/create-product.request';
 import { CurrentUser } from '../auth/current-user.decorator';
@@ -13,5 +13,11 @@ export class ProductsController {
     @UseGuards(JwtAuthGuard)
     async createProduct(@Body() body: createProductRequest, @CurrentUser() user: TokenPayload) {
         return this.productsService.createProduct(body, user.userId);
+    }
+
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    async getProducts(@CurrentUser() user: TokenPayload) {
+        return this.productsService.getProducts(user.userId);
     }
 }
